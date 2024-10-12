@@ -7,23 +7,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import simorgh.tejarat.app.services.DoctorService;
+import simorgh.tejarat.app.entities.Patient;
+import simorgh.tejarat.app.services.PatientService;
 
 @RestController
-@RequestMapping("/doctor")
-public class DoctorsController {
+@RequestMapping("/patient")
+public class PatientsController {
     @Autowired
-    private DoctorService doctorService;
+    private PatientService patientService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody String name) {
+    public ResponseEntity<String> add(
+        @RequestBody String name,
+        @RequestBody String phoneNumber
+    ) {
         try {
-            doctorService.addDoctor(name);
-            return ResponseEntity.status(HttpStatus.CREATED).body("you have been added to the list of doctors");
-        }
-        catch (Exception ex) {
+            patientService.addPatient(name, phoneNumber);
+            return ResponseEntity.status(HttpStatus.CREATED).body("a new patient was added");
+        } catch (Exception ex) {
             return ResponseEntity.noContent().build();
         }
     }
-
 }

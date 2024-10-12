@@ -16,17 +16,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("IllegalArgumentException " + ex.getMessage());
     }
 
-    @ExceptionHandler(BadRequestException.class) //400
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BadRequestException " + ex.getMessage());
     }
 
-    @ExceptionHandler(EntityNotFoundException.class) //404
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleAccessDeniedException(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EntityNotFoundException " + ex.getMessage());
     }
 
-    @ExceptionHandler(AccessDeniedException.class) //406
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("AccessDeniedException " + ex.getMessage());
     }

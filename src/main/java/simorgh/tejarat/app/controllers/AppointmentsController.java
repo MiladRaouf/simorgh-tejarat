@@ -36,7 +36,7 @@ public class AppointmentsController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
             appointmentService.deleteOpenAppointment(id);
             return ResponseEntity.noContent().build();
@@ -74,7 +74,7 @@ public class AppointmentsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addAppointment(
+    public ResponseEntity<String> add(
         @RequestBody Long doctorId,
         @RequestBody LocalDateTime startTime,
         @RequestBody LocalDateTime endTime

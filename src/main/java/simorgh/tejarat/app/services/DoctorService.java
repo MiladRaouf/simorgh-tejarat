@@ -2,6 +2,8 @@ package simorgh.tejarat.app.services;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import simorgh.tejarat.app.entities.Doctor;
 import simorgh.tejarat.app.repositories.DoctorRepository;

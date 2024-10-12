@@ -3,6 +3,8 @@ package simorgh.tejarat.app.services;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,11 @@ public class AppointmentService {
     private DoctorRepository doctorRepository;
     @Autowired
     private PatientRepository patientRepository;
+
+//    @Autowired
+//    public Appointment(
+//            AppointmentRepository appointmentRepository
+//    )
 
     /**
      * gives reserved appointments of a doctor
@@ -129,8 +136,7 @@ public class AppointmentService {
         Patient patient = patientRepository.findByPhoneNumber(phoneNumber);
 
         if (patient == null) {
-            PatientService patientService = new PatientService();
-            patient = patientService.registerPatient(name, phoneNumber);
+            throw new EntityNotFoundException("patient not found");
         }
 
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(

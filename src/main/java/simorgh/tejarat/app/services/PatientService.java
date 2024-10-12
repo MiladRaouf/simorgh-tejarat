@@ -2,6 +2,8 @@ package simorgh.tejarat.app.services;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,6 @@ import simorgh.tejarat.app.repositories.PatientRepository;
 
 @Service
 public class PatientService {
-
     @Autowired
     private PatientRepository patientRepository;
 
@@ -22,7 +23,7 @@ public class PatientService {
      * @throws BadRequestException
      */
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Patient registerPatient(String name, String phoneNumber)
+    public Patient addPatient(String name, String phoneNumber)
     throws BadRequestException
     {
         if (name == null || phoneNumber == null) throw new BadRequestException("Enter the input parameters");
