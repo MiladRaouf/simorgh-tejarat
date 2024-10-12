@@ -6,11 +6,13 @@ import simorgh.tejarat.app.enums.appointment.AppointmentStatus;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "appointments")
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "appointment_time")
     private LocalDateTime appointmentTime;
 
     @ManyToOne
