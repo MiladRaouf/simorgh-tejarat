@@ -11,6 +11,12 @@ public class DoctorService {
     @Autowired
     private DoctorRepository doctorRepository;
 
+    /**
+     * adds a doctor to the list of doctors
+     * @param name {@link String}
+     * @return {@link Doctor}
+     * @throws BadRequestException
+     */
     public Doctor addDoctor(String name)
     throws BadRequestException
     {

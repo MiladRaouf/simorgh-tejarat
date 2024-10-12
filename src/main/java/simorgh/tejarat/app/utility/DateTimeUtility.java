@@ -8,7 +8,15 @@ import java.util.List;
 
 @Component
 public class DateTimeUtility {
-    public static List<LocalDateTime> dateTimeInterval(LocalDateTime startTime, LocalDateTime endTime, int interval)
+    /**
+     * it divides a period of time into small periods
+     * @param startTime {@link LocalDateTime}
+     * @param endTime {@link LocalDateTime}
+     * @param interval {@link Integer}
+     * @return LocalDateTime {@link LocalDateTime}
+     * @throws IllegalArgumentException
+     */
+    public static List<LocalDateTime> dateTimeInterval(LocalDateTime startTime, LocalDateTime endTime, Integer interval)
     throws IllegalArgumentException {
         if (endTime.isBefore(startTime)) {
             throw new IllegalArgumentException("end time cannot before start time");

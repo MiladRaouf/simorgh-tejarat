@@ -10,9 +10,17 @@ import simorgh.tejarat.app.repositories.PatientRepository;
 
 @Service
 public class PatientService {
+
     @Autowired
     private PatientRepository patientRepository;
 
+    /**
+     * adds a patient to the patient list
+     * @param name {@link String}
+     * @param phoneNumber {@link String}
+     * @return {@link Patient}
+     * @throws BadRequestException
+     */
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Patient registerPatient(String name, String phoneNumber)
     throws BadRequestException

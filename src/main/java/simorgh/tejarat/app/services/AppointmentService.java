@@ -30,25 +30,42 @@ public class AppointmentService {
     private PatientRepository patientRepository;
 
     /**
-     *
-     * @param doctorId Long
-     * @return Appointment List
+     * gives reserved appointments of a doctor
+     * @param doctorId {@link Long}
+     * @return Appointment {@link List}
      */
     public List<Appointment> getReservedAppointments(Long doctorId)
     {
         return appointmentRepository.findByDoctorIdAndStatus(doctorId, AppointmentStatus.RESERVED);
     }
 
+    /**
+     * gives open appointments of a doctor
+     * @param doctorId {@link Long}
+     * @return Appointment {@link List}
+     */
     public List<Appointment> getOpenAppointments(Long doctorId)
     {
         return appointmentRepository.findByDoctorIdAndStatus(doctorId, AppointmentStatus.OPEN);
     }
 
+    /**
+     * gives all appointments of a doctor
+     * @param doctorId {@link Long}
+     * @return Appointment {@link List}
+     */
     public List<Appointment> getAppointments(Long doctorId)
     {
         return appointmentRepository.findByDoctorId(doctorId);
     }
 
+    /**
+     * creates doctor's appointments within 30 minutes
+     * @param doctorId {@link Long}
+     * @param startTime {@link LocalDateTime}
+     * @param endTime {@link LocalDateTime}
+     * @throws IllegalArgumentException
+     */
     public void addAppointmentTimes(Long doctorId, LocalDateTime startTime, LocalDateTime endTime)
     throws IllegalArgumentException {
         List<LocalDateTime> startAppointment = DateTimeUtility.dateTimeInterval(startTime, endTime, 30);
@@ -60,6 +77,12 @@ public class AppointmentService {
         }
     }
 
+    /**
+     * removes an open appointment and controls concurrency
+     * @param appointmentId {@link Long}
+     * @throws EntityNotFoundException
+     * @throws AccessDeniedException
+     */
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void deleteOpenAppointment(Long appointmentId)
     throws EntityNotFoundException, AccessDeniedException
@@ -77,6 +100,11 @@ public class AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
+    /**
+     * gives one day's open appointments
+     * @param date {@link LocalDate}
+     * @return Appointment {@link List}
+     */
     public List<Appointment> getOpenAppointments(LocalDate date)
     {
         LocalDateTime startTime = date.atTime(0,0);
@@ -85,6 +113,15 @@ public class AppointmentService {
         return appointmentRepository.findByAppointmentTimeBetween(startTime, endTime);
     }
 
+    /**
+     * reserves a appointment and controls concurrency
+     * @param name {@link String}
+     * @param phoneNumber {@link String}
+     * @param appointmentId {@link Long}
+     * @throws EntityNotFoundException
+     * @throws AccessDeniedException
+     * @throws BadRequestException
+     */
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void reservedAppointment(String name, String phoneNumber, Long appointmentId)
     throws EntityNotFoundException, AccessDeniedException, BadRequestException
@@ -110,6 +147,11 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
     }
 
+    /**
+     * gives the reserved appointments
+     * @param phoneNumber {@link String}
+     * @return Appointment {@link List}
+     */
     public List<Appointment> getReservedAppointments(String phoneNumber)
     {
         Patient patient = patientRepository.findByPhoneNumber(phoneNumber);
