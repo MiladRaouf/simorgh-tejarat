@@ -1,6 +1,7 @@
 package simorgh.tejarat.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import simorgh.tejarat.app.entities.Appointment;
@@ -16,25 +17,25 @@ public class AppointmentsController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @GetMapping("/")
-    public ResponseEntity<Appointment> getAppointmentsByDoctorId(@RequestParam Long doctorId) {
+    @GetMapping("/doctor/{id}")
+    public ResponseEntity<List<Appointment>> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getAppointments(doctorId);
-        return ResponseEntity.ok((Appointment) appointments);
+        return ResponseEntity.ok().body(appointments);
     }
 
-    @GetMapping("/open-appointment")
-    public ResponseEntity<Appointment> getOpenAppointmentsByDoctorId(@RequestParam Long doctorId) {
+    @GetMapping("/doctor/{id}/open-appointment")
+    public ResponseEntity<List<Appointment>> getOpenAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getOpenAppointments(doctorId);
-        return ResponseEntity.ok((Appointment) appointments);
+        return ResponseEntity.ok().body(appointments);
     }
 
-    @GetMapping("/reserved-appointment")
-    public ResponseEntity<Appointment> getReservedAppointmentsByDoctorId(@RequestParam Long doctorId) {
+    @GetMapping("/doctor/{id}/reserved-appointment")
+    public ResponseEntity<List<Appointment>> getReservedAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getReservedAppointments(doctorId);
-        return ResponseEntity.ok((Appointment) appointments);
+        return ResponseEntity.ok().body(appointments);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         try {
             appointmentService.deleteOpenAppointment(id);
@@ -46,20 +47,20 @@ public class AppointmentsController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Appointment> getAppointmentsByDate(@RequestParam LocalDate date) {
+    public ResponseEntity<List<Appointment>> getAppointmentsByDate(@RequestParam LocalDate date) {
         List<Appointment> appointments = appointmentService.getOpenAppointments(date);
-        return ResponseEntity.ok((Appointment) appointments);
+        return ResponseEntity.ok().body(appointments);
     }
 
     @PutMapping("/reserved")
-    public ResponseEntity<Void> reservedByNameAndPhoneNumber(
+    public ResponseEntity<String> reservedByNameAndPhoneNumber(
         @RequestBody String name,
         @RequestBody String phoneNumber,
         @RequestBody Long appointmentId
     ) {
         try {
             appointmentService.reservedAppointment(name, phoneNumber, appointmentId);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.CREATED).body("the appointment was reserved");
         }
         catch (Exception ex) {
             return ResponseEntity.noContent().build();
@@ -67,18 +68,18 @@ public class AppointmentsController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Appointment> getAppointmentsByPhoneNumber(@RequestParam String phoneNumber) {
+    public ResponseEntity<List<Appointment>> getAppointmentsByPhoneNumber(@RequestParam String phoneNumber) {
         List<Appointment> appointments = appointmentService.getReservedAppointments(phoneNumber);
-        return ResponseEntity.ok((Appointment) appointments);
+        return ResponseEntity.ok().body(appointments);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addAppointment(
+    public ResponseEntity<String> addAppointment(
         @RequestBody Long doctorId,
         @RequestBody LocalDateTime startTime,
         @RequestBody LocalDateTime endTime
     ) {
         appointmentService.addAppointmentTimes(doctorId, startTime, endTime);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("new appointments were created");
     }
 }
