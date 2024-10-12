@@ -1,4 +1,4 @@
-package simorgh.tejarat.app.controllers;
+package simorgh.tejarat.app.exceptionhandlers;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
