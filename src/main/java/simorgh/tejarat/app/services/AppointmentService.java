@@ -31,11 +31,6 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
-//    @Autowired
-//    public Appointment(
-//            AppointmentRepository appointmentRepository
-//    )
-
     /**
      * gives reserved appointments of a doctor
      * @param doctorId {@link Long}
