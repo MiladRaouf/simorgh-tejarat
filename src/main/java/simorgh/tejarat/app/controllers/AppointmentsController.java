@@ -17,28 +17,28 @@ public class AppointmentsController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @GetMapping("/doctor/{id}")
+    @GetMapping("/doctor/{doctorId}")
     public ResponseEntity<List<Appointment>> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getAppointments(doctorId);
         return ResponseEntity.ok().body(appointments);
     }
 
-    @GetMapping("/doctor/{id}/open-appointment")
+    @GetMapping("/doctor/{doctorId}/open-appointment")
     public ResponseEntity<List<Appointment>> getOpenAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getOpenAppointments(doctorId);
         return ResponseEntity.ok().body(appointments);
     }
 
-    @GetMapping("/doctor/{id}/reserved-appointment")
+    @GetMapping("/doctor/{doctorId}/reserved-appointment")
     public ResponseEntity<List<Appointment>> getReservedAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getReservedAppointments(doctorId);
         return ResponseEntity.ok().body(appointments);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @DeleteMapping("/delete/{appointmentId}")
+    public ResponseEntity<Void> delete(@PathVariable Long appointmentId) {
         try {
-            appointmentService.deleteOpenAppointment(id);
+            appointmentService.deleteOpenAppointment(appointmentId);
             return ResponseEntity.noContent().build();
         }
         catch (Exception ex) {
